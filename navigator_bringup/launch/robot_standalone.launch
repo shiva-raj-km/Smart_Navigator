@@ -1,0 +1,41 @@
+<launch>
+
+  <!-- change this next line to include the launch file for your robot's hardware drivers: -->
+
+  <arg name="simulation" default="$(optenv TURTLEBOT_SIMULATION false)"/>
+ <param name="/use_sim_time" value="$(arg simulation)"/>
+
+  <arg name="urdf_file" default="$(find xacro)/xacro.py '$(find navigator_description)/urdf/navigator_base.xacro'" />  
+
+  
+
+
+  <param name="robot_description" command="$(arg urdf_file)" />
+
+  <!-- important generally, but specifically utilised by the current app manager -->
+  <param name="robot/name" value="$(optenv ROBOT turtlebot)"/>
+  <param name="robot/type" value="turtlebot"/>
+
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="5.0" />
+  </node>
+
+
+  <rosparam param="base_width">0.4</rosparam>
+  <rosparam param="ticks_meter">181</rosparam>
+
+
+
+  <node pkg="navigator_bringup" type="battery_status.py" name="battery_status" output="screen"/>
+
+
+  <node pkg="navigator_bringup" type="twist_to_motors.py" name="twist_to_motors" output="screen"/>
+  <node pkg="navigator_bringup" type="diff_tf.py" name="diff_tf" output="screen"/> 
+
+  <node name="serial_node1" pkg="rosserial_python" type="serial_node.py" output="screen">
+  <param name="port" value="/dev/ttyACM0" />
+  <param name="baud" value="57600" />
+  </node>
+
+</launch>
