@@ -15,7 +15,7 @@ Cut and copy two folders inside Smart_navigator into src folder
 cd ..
 # Run 
 catkin build
-# If no errors after running catkin build the packages are installed and build properly
+# If no errors after running catkin build then the packages are installed and build properly
 # Run 
 source devel/setup.bash
 # To source the terminal
